@@ -1,0 +1,335 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		234E7AAF1461274600D1BA7F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234E7AAE1461274600D1BA7F /* UIKit.framework */; };
+		234E7AB11461274600D1BA7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234E7AB01461274600D1BA7F /* Foundation.framework */; };
+		234E7AB31461274600D1BA7F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234E7AB21461274600D1BA7F /* CoreGraphics.framework */; };
+		234E7AB91461274600D1BA7F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 234E7AB71461274600D1BA7F /* InfoPlist.strings */; };
+		234E7ABB1461274600D1BA7F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 234E7ABA1461274600D1BA7F /* main.m */; };
+		234E7ABF1461274600D1BA7F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 234E7ABE1461274600D1BA7F /* AppDelegate.m */; };
+		234E7AC21461274600D1BA7F /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 234E7AC01461274600D1BA7F /* MainStoryboard.storyboard */; };
+		234E7AC51461274600D1BA7F /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 234E7AC41461274600D1BA7F /* ViewController.mm */; };
+		234E7ACC1461275B00D1BA7F /* PlayFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 234E7ACB1461275B00D1BA7F /* PlayFile.cpp */; };
+		234E7AD01461277900D1BA7F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234E7ACD1461277900D1BA7F /* AudioToolbox.framework */; };
+		234E7AD21461277900D1BA7F /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234E7ACF1461277900D1BA7F /* CoreAudio.framework */; };
+		234E7AEE1461285900D1BA7F /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 234E7AED1461285900D1BA7F /* CADebugPrintf.cpp */; };
+		234E7AF1146129F300D1BA7F /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 234E7AF0146129F300D1BA7F /* CAStreamBasicDescription.cpp */; };
+		234E7AF514612A3B00D1BA7F /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 234E7AF414612A3B00D1BA7F /* CAXException.cpp */; };
+		234E7AF71461349200D1BA7F /* 808 loop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 234E7AF61461349200D1BA7F /* 808 loop.wav */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		234E7AAA1461274600D1BA7F /* iOSfilePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSfilePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		234E7AAE1461274600D1BA7F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		234E7AB01461274600D1BA7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		234E7AB21461274600D1BA7F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		234E7AB61461274600D1BA7F /* iOSfilePlayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOSfilePlayer-Info.plist"; sourceTree = "<group>"; };
+		234E7AB81461274600D1BA7F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		234E7ABA1461274600D1BA7F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		234E7ABC1461274600D1BA7F /* iOSfilePlayer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSfilePlayer-Prefix.pch"; sourceTree = "<group>"; };
+		234E7ABD1461274600D1BA7F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		234E7ABE1461274600D1BA7F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		234E7AC11461274600D1BA7F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		234E7AC31461274600D1BA7F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		234E7AC41461274600D1BA7F /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		234E7ACB1461275B00D1BA7F /* PlayFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayFile.cpp; sourceTree = "<group>"; };
+		234E7ACD1461277900D1BA7F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		234E7ACE1461277900D1BA7F /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		234E7ACF1461277900D1BA7F /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		234E7AEB1461282D00D1BA7F /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugMacros.h; sourceTree = "<group>"; };
+		234E7AEC1461285900D1BA7F /* CADebugPrintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugPrintf.h; sourceTree = "<group>"; };
+		234E7AED1461285900D1BA7F /* CADebugPrintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugPrintf.cpp; sourceTree = "<group>"; };
+		234E7AEF146129F300D1BA7F /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
+		234E7AF0146129F300D1BA7F /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
+		234E7AF214612A0700D1BA7F /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
+		234E7AF314612A3B00D1BA7F /* CAXException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAXException.h; sourceTree = "<group>"; };
+		234E7AF414612A3B00D1BA7F /* CAXException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAXException.cpp; sourceTree = "<group>"; };
+		234E7AF61461349200D1BA7F /* 808 loop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "808 loop.wav"; sourceTree = "<group>"; };
+		2375E896146141090061EBA0 /* PlayFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayFile.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		234E7AA71461274600D1BA7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				234E7AD01461277900D1BA7F /* AudioToolbox.framework in Frameworks */,
+				234E7AD21461277900D1BA7F /* CoreAudio.framework in Frameworks */,
+				234E7AAF1461274600D1BA7F /* UIKit.framework in Frameworks */,
+				234E7AB11461274600D1BA7F /* Foundation.framework in Frameworks */,
+				234E7AB31461274600D1BA7F /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		234E7A9F1461274600D1BA7F = {
+			isa = PBXGroup;
+			children = (
+				234E7AB41461274600D1BA7F /* iOSfilePlayer */,
+				234E7AAD1461274600D1BA7F /* Frameworks */,
+				234E7AAB1461274600D1BA7F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		234E7AAB1461274600D1BA7F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				234E7AAA1461274600D1BA7F /* iOSfilePlayer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		234E7AAD1461274600D1BA7F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				234E7ACD1461277900D1BA7F /* AudioToolbox.framework */,
+				234E7ACE1461277900D1BA7F /* AudioUnit.framework */,
+				234E7ACF1461277900D1BA7F /* CoreAudio.framework */,
+				234E7AAE1461274600D1BA7F /* UIKit.framework */,
+				234E7AB01461274600D1BA7F /* Foundation.framework */,
+				234E7AB21461274600D1BA7F /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		234E7AB41461274600D1BA7F /* iOSfilePlayer */ = {
+			isa = PBXGroup;
+			children = (
+				234E7AD3146127A700D1BA7F /* Public Utility */,
+				2375E896146141090061EBA0 /* PlayFile.h */,
+				234E7ACB1461275B00D1BA7F /* PlayFile.cpp */,
+				234E7ABD1461274600D1BA7F /* AppDelegate.h */,
+				234E7ABE1461274600D1BA7F /* AppDelegate.m */,
+				234E7AC01461274600D1BA7F /* MainStoryboard.storyboard */,
+				234E7AC31461274600D1BA7F /* ViewController.h */,
+				234E7AC41461274600D1BA7F /* ViewController.mm */,
+				234E7AB51461274600D1BA7F /* Supporting Files */,
+			);
+			path = iOSfilePlayer;
+			sourceTree = "<group>";
+		};
+		234E7AB51461274600D1BA7F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				234E7AF61461349200D1BA7F /* 808 loop.wav */,
+				234E7AB61461274600D1BA7F /* iOSfilePlayer-Info.plist */,
+				234E7AB71461274600D1BA7F /* InfoPlist.strings */,
+				234E7ABA1461274600D1BA7F /* main.m */,
+				234E7ABC1461274600D1BA7F /* iOSfilePlayer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		234E7AD3146127A700D1BA7F /* Public Utility */ = {
+			isa = PBXGroup;
+			children = (
+				234E7AEC1461285900D1BA7F /* CADebugPrintf.h */,
+				234E7AED1461285900D1BA7F /* CADebugPrintf.cpp */,
+				234E7AF214612A0700D1BA7F /* CAMath.h */,
+				234E7AEF146129F300D1BA7F /* CAStreamBasicDescription.h */,
+				234E7AF0146129F300D1BA7F /* CAStreamBasicDescription.cpp */,
+				234E7AEB1461282D00D1BA7F /* CADebugMacros.h */,
+				234E7AF314612A3B00D1BA7F /* CAXException.h */,
+				234E7AF414612A3B00D1BA7F /* CAXException.cpp */,
+			);
+			name = "Public Utility";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		234E7AA91461274600D1BA7F /* iOSfilePlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 234E7AC81461274600D1BA7F /* Build configuration list for PBXNativeTarget "iOSfilePlayer" */;
+			buildPhases = (
+				234E7AA61461274600D1BA7F /* Sources */,
+				234E7AA71461274600D1BA7F /* Frameworks */,
+				234E7AA81461274600D1BA7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iOSfilePlayer;
+			productName = iOSfilePlayer;
+			productReference = 234E7AAA1461274600D1BA7F /* iOSfilePlayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		234E7AA11461274600D1BA7F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = None;
+			};
+			buildConfigurationList = 234E7AA41461274600D1BA7F /* Build configuration list for PBXProject "iOSfilePlayer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 234E7A9F1461274600D1BA7F;
+			productRefGroup = 234E7AAB1461274600D1BA7F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				234E7AA91461274600D1BA7F /* iOSfilePlayer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		234E7AA81461274600D1BA7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				234E7AB91461274600D1BA7F /* InfoPlist.strings in Resources */,
+				234E7AC21461274600D1BA7F /* MainStoryboard.storyboard in Resources */,
+				234E7AF71461349200D1BA7F /* 808 loop.wav in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		234E7AA61461274600D1BA7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				234E7ABB1461274600D1BA7F /* main.m in Sources */,
+				234E7ABF1461274600D1BA7F /* AppDelegate.m in Sources */,
+				234E7AC51461274600D1BA7F /* ViewController.mm in Sources */,
+				234E7ACC1461275B00D1BA7F /* PlayFile.cpp in Sources */,
+				234E7AEE1461285900D1BA7F /* CADebugPrintf.cpp in Sources */,
+				234E7AF1146129F300D1BA7F /* CAStreamBasicDescription.cpp in Sources */,
+				234E7AF514612A3B00D1BA7F /* CAXException.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		234E7AB71461274600D1BA7F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				234E7AB81461274600D1BA7F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		234E7AC01461274600D1BA7F /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				234E7AC11461274600D1BA7F /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		234E7AC61461274600D1BA7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		234E7AC71461274600D1BA7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		234E7AC91461274600D1BA7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOSfilePlayer/iOSfilePlayer-Prefix.pch";
+				INFOPLIST_FILE = "iOSfilePlayer/iOSfilePlayer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		234E7ACA1461274600D1BA7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOSfilePlayer/iOSfilePlayer-Prefix.pch";
+				INFOPLIST_FILE = "iOSfilePlayer/iOSfilePlayer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		234E7AA41461274600D1BA7F /* Build configuration list for PBXProject "iOSfilePlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				234E7AC61461274600D1BA7F /* Debug */,
+				234E7AC71461274600D1BA7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		234E7AC81461274600D1BA7F /* Build configuration list for PBXNativeTarget "iOSfilePlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				234E7AC91461274600D1BA7F /* Debug */,
+				234E7ACA1461274600D1BA7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 234E7AA11461274600D1BA7F /* Project object */;
+}

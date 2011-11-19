@@ -42,11 +42,10 @@
 
 #include "PlayFile.h"
 #include <AudioUnit/AUComponent.h>
+#include "AudioComponentDescriptionHelper.h"
+
 // helper functions
 double PrepareFileAU (AudioUnit &au, CAStreamBasicDescription &fileFormat, AudioFileID audioFile);
-void MakeSimpleGraph (AUGraph &theGraph, AudioUnit &fileAU, AudioUnit &remoteIOUnit, CAStreamBasicDescription &fileFormat, AudioFileID audioFile);
-
-
 
 PlayFile::PlayFile (CFURLRef theURL) {
     
@@ -58,86 +57,12 @@ PlayFile::PlayFile (CFURLRef theURL) {
 	CAStreamBasicDescription fileFormat;
 	UInt32 propsize = sizeof(CAStreamBasicDescription);
 	XThrowIfError (AudioFileGetProperty(audioFile, kAudioFilePropertyDataFormat, &propsize, &fileFormat), "AudioFileGetProperty");
-	printf ("format: "); fileFormat.Print();
+	printf ("format: "); 
+    fileFormat.Print();
     
     // this makes the graph, the file AU and sets it all up for playing
-	MakeSimpleGraph (theGraph, fileAU, remoteIOUnit, fileFormat, audioFile);
-    
-	UInt32 asbdSize = sizeof (AudioStreamBasicDescription);
-    
-    AudioUnitGetProperty(remoteIOUnit,
-						 kAudioUnitProperty_StreamFormat,
-						 kAudioUnitScope_Input,
-						 0, 
-						 &fileFormat,
-						 &asbdSize);
-    
-	printf ("remote IO format: "); fileFormat.Print(); 
-    
-    AudioStreamBasicDescription interleavedAudioFormat;
-	interleavedAudioFormat.mSampleRate			= 44100.0;
-	interleavedAudioFormat.mFormatID			= kAudioFormatLinearPCM;
-	interleavedAudioFormat.mFormatFlags		    = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
-	interleavedAudioFormat.mFramesPerPacket	    = 1;
-	interleavedAudioFormat.mChannelsPerFrame	= 2;
-	interleavedAudioFormat.mBitsPerChannel		= 16;
-	interleavedAudioFormat.mBytesPerPacket		= 4;
-	interleavedAudioFormat.mBytesPerFrame		= 4;
-    
-    
-    Boolean isSetable = false;
-    OSStatus err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, NULL, &isSetable);
-    err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, NULL, &isSetable);
-    err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, NULL, &isSetable);
-    err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, NULL, &isSetable);
-    
-    err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, NULL, &isSetable);
-    err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, NULL, &isSetable);
-    err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, NULL, &isSetable);
-    err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, NULL, &isSetable);
-    
-    //set the properties for the final output
-	err = AudioUnitSetProperty(remoteIOUnit, 
-							   kAudioUnitProperty_StreamFormat, 
-							   kAudioUnitScope_Input, 
-							   0, 
-							   &interleavedAudioFormat, 
-							   sizeof(interleavedAudioFormat));
-    
-    err = AudioUnitGetProperty(remoteIOUnit,
-                               kAudioUnitProperty_StreamFormat,
-                               kAudioUnitScope_Input,
-                               0, 
-                               &fileFormat,
-                               &asbdSize);
-    
-	printf ("remote IO format: "); fileFormat.Print(); 
-    
-	AudioUnitGetProperty(fileAU,
-						 kAudioUnitProperty_StreamFormat,
-						 kAudioUnitScope_Output,
-						 0, 
-						 &fileFormat,
-						 &asbdSize);
-    
-	printf ("format: "); fileFormat.Print();    
-    
-    AudioUnitGetProperty(fileAU,
-						 kAudioUnitProperty_StreamFormat,
-						 kAudioUnitScope_Output,
-						 1, 
-						 &fileFormat,
-						 &asbdSize);
-    
-	printf ("format 1: "); fileFormat.Print(); 
-    
-    // now we load the file contents up for playback before we start playing
-    // this has to be done the AU is initialized and anytime it is reset or uninitialized
-	Float64 fileDuration = PrepareFileAU (fileAU, fileFormat, audioFile);
-    printf ("file duration: %f secs\n", fileDuration);
-    
-    // start playing
-	XThrowIfError (AUGraphStart (theGraph), "AUGraphStart");
+	MakeSimpleGraph();
+
 	
 }	
 
@@ -300,37 +225,37 @@ double PrepareFileAU (AudioUnit &au, CAStreamBasicDescription &fileFormat, Audio
 
 
 
-void MakeSimpleGraph (AUGraph &theGraph, AudioUnit &fileAU, AudioUnit &remoteIOUnit, CAStreamBasicDescription &fileFormat, AudioFileID audioFile)
-{
+void PlayFile::MakeSimpleGraph (){
+    
+    // get the number of channels of the file
+	CAStreamBasicDescription fileFormat;
+	UInt32 propsize = sizeof(CAStreamBasicDescription);
+	XThrowIfError (AudioFileGetProperty(audioFile, kAudioFilePropertyDataFormat, &propsize, &fileFormat), "AudioFileGetProperty");
+	printf ("format: "); 
+    fileFormat.Print();
+    
 	XThrowIfError (NewAUGraph (&theGraph), "NewAUGraph");
 	
-    AudioComponentDescription outputDescription, filePlayerDescription;
-	
-	//describe the input/output node
-	outputDescription.componentFlags = 0;
-	outputDescription.componentFlagsMask = 0;
-	outputDescription.componentType = kAudioUnitType_Output;
-	outputDescription.componentSubType = kAudioUnitSubType_RemoteIO;
-	outputDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
+    AudioComponentDescription outputDescription = getRemoteIODescription();
+    AudioComponentDescription filePlayerDescription = getFilePlayerDescription();
+    AudioComponentDescription varispeedDescription = getVarispeedDescription();
     
 	AUNode outputNode;
-	XThrowIfError (AUGraphAddNode (theGraph, &outputDescription, &outputNode), "AUGraphAddNode");
+	XThrowIfError (AUGraphAddNode (theGraph, &outputDescription, &outputNode), "AUGraphAddOutputNode");
 	
 	// file AU node
 	AUNode fileNode;
+	XThrowIfError (AUGraphAddNode (theGraph, &filePlayerDescription, &fileNode), "AUGraphAddFilePlayerNode");
+	
+    //the varispeed node
+    AUNode varispeedNode;
+    XThrowIfError (AUGraphAddNode (theGraph, &varispeedDescription, &varispeedNode), "AUGraphAddVarispeedNode");
     
-    filePlayerDescription.componentType = kAudioUnitType_Generator;
-    filePlayerDescription.componentSubType = kAudioUnitSubType_AudioFilePlayer;
-    filePlayerDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
-    filePlayerDescription.componentFlags = 0;
-    filePlayerDescription.componentFlagsMask = 0;
-	
-	XThrowIfError (AUGraphAddNode (theGraph, &filePlayerDescription, &fileNode), "AUGraphAddNode");
-	
 	// connect & setup
 	XThrowIfError (AUGraphOpen (theGraph), "AUGraphOpen");
     
     XThrowIfError (AUGraphNodeInfo(theGraph, fileNode, NULL, &fileAU), "AuFileplayer info");
+    XThrowIfError (AUGraphNodeInfo(theGraph, varispeedNode, NULL, &varispeedUnit), "Varispeed info");
     XThrowIfError (AUGraphNodeInfo(theGraph, outputNode, NULL, &remoteIOUnit), "Remote IO info");
     
     // prepare the file AU for playback
@@ -343,8 +268,12 @@ void MakeSimpleGraph (AUGraph &theGraph, AudioUnit &fileAU, AudioUnit &remoteIOU
     // load in the file 
     XThrowIfError (AudioUnitSetProperty(fileAU, kAudioUnitProperty_ScheduledFileIDs, kAudioUnitScope_Global, 0, &audioFile, sizeof(audioFile)), "SetScheduleFile");
     
+    
+    //just some stuff to check what stream formats are settable on the AUFilePlayer unit
+    //doing this because of lack of doco etc.
     Boolean isSetable = false;
-    OSStatus err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, NULL, &isSetable);
+    OSStatus err = noErr;
+    err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, NULL, &isSetable);
     err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, NULL, &isSetable);
     err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, NULL, &isSetable);
     err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, NULL, &isSetable);
@@ -354,8 +283,16 @@ void MakeSimpleGraph (AUGraph &theGraph, AudioUnit &fileAU, AudioUnit &remoteIOU
     err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, NULL, &isSetable);
     err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, NULL, &isSetable);
     
+    err = AudioUnitGetPropertyInfo (varispeedUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (varispeedUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (varispeedUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (varispeedUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, NULL, &isSetable);
     
-	XThrowIfError (AUGraphConnectNodeInput (theGraph, fileNode, 0, outputNode, 0), "AUGraphConnectNodeInput");
+    
+//	XThrowIfError (AUGraphConnectNodeInput (theGraph, fileNode, 0, varispeedNode, 0), "AUGraphConnectNodeInput");
+//	XThrowIfError (AUGraphConnectNodeInput (theGraph, varispeedNode, 0, outputNode, 0), "AUGraphConnectNodeInput");
+
+    XThrowIfError (AUGraphConnectNodeInput (theGraph, fileNode, 0, outputNode, 0), "AUGraphConnectNodeInput");
     
     err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, NULL, &isSetable);
     err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, NULL, &isSetable);
@@ -366,6 +303,11 @@ void MakeSimpleGraph (AUGraph &theGraph, AudioUnit &fileAU, AudioUnit &remoteIOU
     err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, NULL, &isSetable);
     err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, NULL, &isSetable);
     err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, NULL, &isSetable);
+    
+    err = AudioUnitGetPropertyInfo (varispeedUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (varispeedUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (varispeedUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (varispeedUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, NULL, &isSetable);
     
     // AT this point we make sure we have the file player AU initialized
     // this also propogates the output format of the AU to the output unit
@@ -397,5 +339,103 @@ void MakeSimpleGraph (AUGraph &theGraph, AudioUnit &fileAU, AudioUnit &remoteIOU
 			delete [] layout;
 		}
 	}
+    
+    
+	UInt32 asbdSize = sizeof (AudioStreamBasicDescription);
+    
+    AudioUnitGetProperty(remoteIOUnit,
+						 kAudioUnitProperty_StreamFormat,
+						 kAudioUnitScope_Input,
+						 0, 
+						 &fileFormat,
+						 &asbdSize);
+    
+	printf ("remote IO format: "); fileFormat.Print(); 
+    
+    AudioStreamBasicDescription interleavedAudioFormat;
+	interleavedAudioFormat.mSampleRate			= 44100.0;
+	interleavedAudioFormat.mFormatID			= kAudioFormatLinearPCM;
+	interleavedAudioFormat.mFormatFlags		    = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+	interleavedAudioFormat.mFramesPerPacket	    = 1;
+	interleavedAudioFormat.mChannelsPerFrame	= 2;
+	interleavedAudioFormat.mBitsPerChannel		= 16;
+	interleavedAudioFormat.mBytesPerPacket		= 4;
+	interleavedAudioFormat.mBytesPerFrame		= 4;
+    
+    
+    isSetable = false;
+    err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (remoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, NULL, &isSetable);
+    
+    err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, NULL, &isSetable);
+    err = AudioUnitGetPropertyInfo (fileAU, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, NULL, &isSetable);
+    
+    //set the properties for the final output
+	err = AudioUnitSetProperty(remoteIOUnit, 
+							   kAudioUnitProperty_StreamFormat, 
+							   kAudioUnitScope_Input, 
+							   0, 
+							   &interleavedAudioFormat, 
+							   sizeof(interleavedAudioFormat));
+	AudioUnitGetProperty(fileAU,
+						 kAudioUnitProperty_StreamFormat,
+						 kAudioUnitScope_Output,
+						 0, 
+						 &fileFormat,
+						 &asbdSize);
+    
+    
+	err = AudioUnitSetProperty(varispeedUnit, 
+							   kAudioUnitProperty_StreamFormat, 
+							   kAudioUnitScope_Input, 
+							   0, 
+							   &fileFormat, 
+							   sizeof(fileFormat));
+    
+	err = AudioUnitSetProperty(varispeedUnit, 
+							   kAudioUnitProperty_StreamFormat, 
+							   kAudioUnitScope_Output, 
+							   0, 
+							   &fileFormat, 
+							   sizeof(fileFormat));
+    
+    err = AudioUnitGetProperty(remoteIOUnit,
+                               kAudioUnitProperty_StreamFormat,
+                               kAudioUnitScope_Input,
+                               0, 
+                               &fileFormat,
+                               &asbdSize);
+    
+	printf ("remote IO format: "); fileFormat.Print(); 
+    
+	AudioUnitGetProperty(fileAU,
+						 kAudioUnitProperty_StreamFormat,
+						 kAudioUnitScope_Output,
+						 0, 
+						 &fileFormat,
+						 &asbdSize);
+    
+	printf ("format: "); fileFormat.Print();    
+    
+    AudioUnitGetProperty(fileAU,
+						 kAudioUnitProperty_StreamFormat,
+						 kAudioUnitScope_Output,
+						 1, 
+						 &fileFormat,
+						 &asbdSize);
+    
+	printf ("format 1: "); fileFormat.Print(); 
+    
+    // now we load the file contents up for playback before we start playing
+    // this has to be done the AU is initialized and anytime it is reset or uninitialized
+	Float64 fileDuration = PrepareFileAU (fileAU, fileFormat, audioFile);
+    printf ("file duration: %f secs\n", fileDuration);
+    
+    // start playing
+	XThrowIfError (AUGraphStart (theGraph), "AUGraphStart");
 }
 

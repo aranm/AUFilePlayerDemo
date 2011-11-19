@@ -25,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2338631F1477B59B00D992C2 /* AudioComponentDescriptionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioComponentDescriptionHelper.h; sourceTree = "<group>"; };
 		234E7AAA1461274600D1BA7F /* iOSfilePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSfilePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		234E7AAE1461274600D1BA7F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		234E7AB01461274600D1BA7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -104,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				234E7AD3146127A700D1BA7F /* Public Utility */,
+				2338631F1477B59B00D992C2 /* AudioComponentDescriptionHelper.h */,
 				2375E896146141090061EBA0 /* PlayFile.h */,
 				234E7ACB1461275B00D1BA7F /* PlayFile.cpp */,
 				234E7ABD1461274600D1BA7F /* AppDelegate.h */,

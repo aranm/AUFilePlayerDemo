@@ -16,12 +16,17 @@
 #include "CAStreamBasicDescription.h"
 
 class PlayFile {
+private:
+    
     AUGraph theGraph;
 	AudioUnit fileAU;
+    AudioUnit varispeedUnit;
     AudioUnit remoteIOUnit;
     AudioFileID audioFile;
     
     UInt32 startFrame;
+    
+    void MakeSimpleGraph ();
     
 public:
     

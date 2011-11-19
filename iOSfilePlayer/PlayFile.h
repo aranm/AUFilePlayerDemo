@@ -21,12 +21,16 @@ class PlayFile {
     AudioUnit remoteIOUnit;
     AudioFileID audioFile;
     
+    UInt32 startFrame;
+    
 public:
     
     PlayFile(CFURLRef theURL);
     ~PlayFile();
     void setTrackPosition(float position);
     Float64 getTrackPosition();
+    float getTrackRelativePosition();
+    Float64 getTrackTotalLength();
 };
 
 #endif

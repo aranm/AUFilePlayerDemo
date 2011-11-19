@@ -9,7 +9,7 @@
 #import "ViewController.h"
 
 @implementation ViewController
-@synthesize timeLabel;
+@synthesize timeLabel, timeSlider;
 
 - (void)didReceiveMemoryWarning
 {
@@ -19,6 +19,14 @@
 
 #pragma mark - View lifecycle
 
+-(void)sliderMoveStart {
+    isSliding = YES;
+}
+
+-(void)sliderMoveEnd {
+    isSliding = NO;    
+}
+
 - (void)viewDidLoad
 {
     
@@ -27,15 +35,22 @@
     NSURL *fileUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"808 loop" ofType:@"wav"]];	
     playFile = new PlayFile((__bridge CFURLRef)fileUrl);
     
+    
+    [timeSlider addTarget:self action:@selector(sliderMoveStart) forControlEvents:UIControlEventTouchDown];
+    [timeSlider addTarget:self action:@selector(sliderMoveEnd) forControlEvents:UIControlEventTouchUpInside];
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }
+
+
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -44,7 +59,13 @@
 }
 
 -(void)updateUI {
+    
     [timeLabel setText:[NSString stringWithFormat:@"%.2f", playFile->getTrackPosition()]];
+    //[timeSlider setMinimumValue:0];
+    //[timeSlider setMaximumValue:playFile->getTrackTotalLength()];
+    if (isSliding == NO){
+        [timeSlider setValue:playFile->getTrackRelativePosition()];
+    }
 }
 
 -(void)runLoop{

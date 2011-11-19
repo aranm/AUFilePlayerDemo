@@ -11,9 +11,11 @@
 
 @interface ViewController : UIViewController {
     PlayFile *playFile;
+    BOOL isSliding;
 }
 
 @property (nonatomic, strong) IBOutlet UILabel *timeLabel;
+@property (nonatomic, strong) IBOutlet UISlider *timeSlider;
 
 -(IBAction)setTrackPosition:(UISlider *)sender;
 
